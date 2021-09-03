@@ -1,0 +1,19 @@
+{
+  "name": "miaujuda-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:trabalho-topicos-bd/miaujuda-api.git",
+  "author": "itzfeltrin <pedrofeltrin45@yahoo.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "neo4j-driver": "^4.3.2",
+    "node": "^16.6.1",
+    "nodemon": "^2.0.12"
+  },
+  "scripts": {
+    "start": "nodemon src/index.js"
+  }
+}
