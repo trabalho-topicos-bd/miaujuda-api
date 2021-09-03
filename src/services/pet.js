@@ -11,17 +11,19 @@ const _getAll = async () => {
             name: el._fields[0].properties.name,
         }));
 
-        return JSON.stringify(arr);
+        return arr;
     } catch (err) {
         throw err;
     }
 };
 
-const _create = async (name = "") => {
+const _create = async (values) => {
     try {
-        await session.run("CREATE (a:Pet {name: $name})", {
-            name,
+        const result = await session.run("CREATE (a:Pet {name: $name})", {
+            name: values.name,
         });
+
+        return result;
     } catch (err) {
         throw err;
     }

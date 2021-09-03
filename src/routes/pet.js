@@ -4,15 +4,25 @@ const petServices = require('../services/pet');
 
 const router = express.Router();
 
-const {_getAll} = petServices();
+const {_getAll, _create} = petServices();
 
 router.get('/', async (req, res) => {
     try {
-        // const data = await _getAll();
+        const data = await _getAll();
 
-        // console.log(data);
+        res.json(data);
+    } catch (err) {
+        res.status(500).send("Something went wrong internally");
+    }
+})
 
-        res.send('Get pets');
+router.post('/', async (req, res) => {
+    try {
+        const values = req.body;
+
+        const data = await _create(values);
+
+        res.json(data);
     } catch (err) {
         res.status(500).send("Something went wrong internally");
     }
