@@ -1,5 +1,5 @@
 module.exports = {
-    uri: "neo4j://localhost:7687",
-    user: "neo4j",
-    password: "abc123",
+    uri: process.env.DATABASE_URL,
+    user: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD,
 }
