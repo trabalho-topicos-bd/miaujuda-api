@@ -1,4 +1,4 @@
-require('dotenv').config()
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const logger = require("morgan");
@@ -18,12 +18,12 @@ app.use(express.static(path.basename(path.dirname("public"))));
 app.use(cors());
 
 app.get("/", (req, res) => {
-    res.redirect("/pet");
-})
+  res.redirect("/pet");
+});
 
-app.use("/pet", petRoutes)
+app.use("/pet", petRoutes);
 
-app.use("/storage", storageRoutes)
+app.use("/storage", storageRoutes);
 
 app.listen(PORT);
 
