@@ -1,4 +1,5 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
 
 const petServices = require("../services/pet");
 
@@ -6,6 +7,24 @@ const router = express.Router();
 
 const { _getAll, _getOne, _createOne, _updateOne, _deleteAll, _deleteOne } =
   petServices();
+
+const jwtMiddleware = (req, res, next) => {
+  try {
+    if (!req.headers.authorization) throw new Error("Credenciais inválidas");
+
+    const token = req.headers.authorization.split(" ")[1];
+
+    jwt.verify(token, process.env.SECRET);
+
+    return next();
+  } catch (err) {
+    return res.status(401).json({
+      status: 401,
+      message:
+        err.message === "jwt expired" ? "Credenciais expiradas" : err.message,
+    });
+  }
+};
 
 router.get("/", async (req, res) => {
   try {
@@ -27,7 +46,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", jwtMiddleware, async (req, res) => {
   try {
     const values = req.body;
 
@@ -39,7 +58,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", jwtMiddleware, async (req, res) => {
   try {
     const values = req.body;
 
@@ -51,21 +70,19 @@ router.patch("/:id", async (req, res) => {
   }
 });
 
-router.delete("/", async (req, res) => {
+router.delete("/", jwtMiddleware, async (req, res) => {
   try {
     await _deleteAll();
 
-    res
-      .status(200)
-      .json({
-        message: "Todos os registros de pet foram deletados com sucesso",
-      });
+    res.status(200).json({
+      message: "Todos os registros de pet foram deletados com sucesso",
+    });
   } catch (err) {
     res.status(err.status).send(err);
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", jwtMiddleware, async (req, res) => {
   try {
     await _deleteOne(req.params.id);
 

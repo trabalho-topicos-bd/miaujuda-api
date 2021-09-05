@@ -4,6 +4,7 @@ const path = require("path");
 const logger = require("morgan");
 const cors = require("cors");
 
+const userRoutes = require("./routes/user");
 const petRoutes = require("./routes/pet");
 const storageRoutes = require("./routes/storage");
 
@@ -20,6 +21,8 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.redirect("/pet");
 });
+
+app.use("/user", userRoutes);
 
 app.use("/pet", petRoutes);
 

@@ -67,6 +67,7 @@ const _createOne = async (values) => {
       values
     );
   } catch (err) {
+    console.log(err);
     throw serviceErrorHandler(err);
   }
 };
