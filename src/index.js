@@ -6,6 +6,7 @@ const cors = require("cors");
 
 const userRoutes = require("./routes/user");
 const petRoutes = require("./routes/pet");
+const featureRoutes = require("./routes/feature");
 const storageRoutes = require("./routes/storage");
 
 const PORT = process.env.PORT || 3000;
@@ -19,13 +20,11 @@ app.use(express.static(path.basename(path.dirname("public"))));
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.redirect("/pet");
+    res.redirect("/pet");
 });
-
 app.use("/user", userRoutes);
-
 app.use("/pet", petRoutes);
-
+app.use("/feature", featureRoutes);
 app.use("/storage", storageRoutes);
 
 app.listen(PORT);

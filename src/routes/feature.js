@@ -3,25 +3,16 @@ const express = require("express");
 const { authMiddleware } = require("../middleware/auth");
 const { featureMiddleware } = require("../middleware/feature");
 
-const petServices = require("../services/pet");
+const featureServices = require("../services/feature");
 
 const router = express.Router();
 
-const {
-    _getAll,
-    _getOne,
-    _getIdeal,
-    _createOne,
-    _updateOne,
-    _deleteAll,
-    _deleteOne,
-} = petServices();
+const { _getAll, _getOne, _createOne, _updateOne, _deleteAll, _deleteOne } =
+    featureServices();
 
 router.get("/", async (req, res) => {
     try {
-        const { limit, ...queryParams } = req.query;
-
-        const data = await _getAll(queryParams, limit);
+        const data = await _getAll();
 
         res.status(200).json(data);
     } catch (err) {
@@ -39,7 +30,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.post("/", authMiddleware, async (req, res) => {
+router.post("/", authMiddleware, featureMiddleware, async (req, res) => {
     try {
         const values = req.body;
 
@@ -51,19 +42,7 @@ router.post("/", authMiddleware, async (req, res) => {
     }
 });
 
-router.post("/find-perfect", featureMiddleware, async (req, res) => {
-    try {
-        const values = req.body;
-
-        const data = await _getIdeal(values);
-
-        res.status(200).json(data);
-    } catch (err) {
-        res.status(err.status).send(err);
-    }
-});
-
-router.patch("/:id", authMiddleware, async (req, res) => {
+router.patch("/:id", authMiddleware, featureMiddleware, async (req, res) => {
     try {
         const values = req.body;
 
@@ -80,7 +59,8 @@ router.delete("/", authMiddleware, async (req, res) => {
         await _deleteAll();
 
         res.status(200).json({
-            message: "Todos os registros de pet foram deletados com sucesso",
+            message:
+                "Todos os registros de característica foram deletados com sucesso",
         });
     } catch (err) {
         res.status(err.status).send(err);
