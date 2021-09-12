@@ -78,7 +78,7 @@ const _getIdeal = async (values) => {
 
         const result = await session.run(
             `MATCH (f:Feature)<-[:Has]-(p:Pet)
-            WITH f, p, gds.alpha.similarity.euclidean([${arrX}], [${arrY}]) AS similarity
+            WITH f, p, gds.alpha.similarity.cosine([${arrX}], [${arrY}]) AS similarity
             RETURN p as pet, similarity
             ORDER BY similarity`
         );
